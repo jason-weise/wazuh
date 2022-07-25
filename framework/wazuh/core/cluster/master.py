@@ -1178,7 +1178,7 @@ class Master(server.AbstractServer):
             logger.info("Agents reconnect task is disabled.")
             return
 
-        logger.info("Cluster agents reconnection started.")
+        logger.info("Cluster agents reconnection started (agents with version >= 4.3.0).")
 
         logger.info(
             f'Sleeping {self.cluster_items["intervals"]["master"]["agent_reconnection"]["nodes_stability_delay"]}s '
@@ -1210,7 +1210,6 @@ class Master(server.AbstractServer):
             except agents_reconnect.SkippingException:
                 # Skip current iteration
                 logger.info("Skipping current iteration.")
-                pass
 
             # Check if the current phase is Halt
             if self.agents_reconnect.get_current_phase() == agents_reconnect.AgentsReconnectionPhases.HALT:

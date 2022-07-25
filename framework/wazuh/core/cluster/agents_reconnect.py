@@ -229,7 +229,7 @@ class AgentsReconnect:
             total = 0
             for node in self.previous_nodes:
                 agent_query = WazuhDBQueryAgents(count=True, filters={"status": "active", "node_name": node},
-                                                 select={"id"})
+                                                 select={"id"}, query="version>Wazuh v4.3.0,version=Wazuh v4.3.0")
                 agent_query._get_total_items(add_filters=True)
                 agents_count[node] = agent_query.total_items
                 total += agent_query.total_items
@@ -270,7 +270,8 @@ class AgentsReconnect:
                 if info['agents'] > 0:
                     agent_query = WazuhDBQueryAgents(
                         count=False, filters={"status": "active", "node_name": node},
-                        limit=info['agents'], sort={"fields": ["id"], "order": "desc"}, select=["id"])
+                        limit=info['agents'], sort={"fields": ["id"], "order": "desc"}, select=["id"],
+                        query="version>Wazuh v4.3.0,version=Wazuh v4.3.0")
                     current_balance[node]['agents'] = [info["id"] for info in agent_query.run()["items"]]
                 else:
                     current_balance[node]['agents'] = []
